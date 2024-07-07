@@ -1,5 +1,5 @@
 
-# Dash Application
+# paper2dash
 
 This project is a web application built using Dash, a Python framework for building analytical web applications. The application consists of multiple components including the main application setup, layout definition, callback functions, and styles.
 
