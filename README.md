@@ -1,6 +1,6 @@
 # 🧠 Equilibrium Logic & Answer Set Programming Dashboard
 
-![Project Logo](./assets/logo.png)
+<img src="./assets/logo.png" alt="Project Logo" width="200" height="200">
 
 ## 🌟 Introduction
 
@@ -10,12 +10,13 @@ Built with Dash and Plotly, this dashboard offers an engaging and user-friendly 
 
 ## 🚀 Features
 
-- 📊 Interactive visualizations of complexity results
+- 📊 Interactive visualizations of complexity results with adaptive color schemes
 - 🔍 Comprehensive search functionality across all content
-- 🌓 Dark mode toggle for improved readability
+- 🌓 Dark mode toggle for improved readability, with automatic chart adjustments
 - 📱 Responsive design for desktop and mobile devices
 - 📚 In-depth exploration of 11 key topics in equilibrium logic and ASP
 - 🔗 Extensive bibliography with over 150 searchable references
+- ♿ Improved accessibility with ARIA attributes for better screen reader support
 
 ## 🛠️ Installation
 
@@ -53,7 +54,7 @@ Built with Dash and Plotly, this dashboard offers an engaging and user-friendly 
 
 4. Use the search functionality to find specific topics or references.
 
-5. Toggle dark mode for a different visual experience.
+5. Toggle dark mode for a different visual experience. Charts will automatically adjust to maintain readability.
 
 ## 🗂️ Project Structure
 
@@ -106,11 +107,15 @@ The dashboard includes a powerful search feature that allows users to find speci
 
 ## 🌙 Dark Mode
 
-Toggle between light and dark modes for a comfortable viewing experience in any environment. The dark mode feature is especially useful for reducing eye strain during extended use.
+Toggle between light and dark modes for a comfortable viewing experience in any environment. The dark mode feature is especially useful for reducing eye strain during extended use. Charts and visualizations automatically adjust their color schemes to maintain readability in both modes.
 
 ## 📊 Interactive Visualizations
 
-Explore complex concepts through interactive charts and graphs. The complexity analysis section features a dynamic chart that can be toggled between bar and radar visualizations for a deeper understanding of computational complexity in equilibrium logic and ASP.
+Explore complex concepts through interactive charts and graphs. The complexity analysis section features dynamic charts that can be toggled between bar and radar visualizations for a deeper understanding of computational complexity in equilibrium logic and ASP. Charts adapt to the current color mode for optimal viewing.
+
+## ♿ Accessibility
+
+The dashboard now includes improved accessibility features, such as ARIA attributes for better screen reader support. This ensures that the content is more accessible to users with disabilities.
 
 ## 🤝 Contributing
 
