@@ -1,6 +1,8 @@
-# 🧠 Equilibrium Logic & Answer Set Programming Dashboard
+# 🧠 paper2dash
 
-<img src="./assets/logo.png" alt="Project Logo" width="200" height="200">
+<div style="text-align:center">
+  <img src="./assets/logo.png" alt="Project Logo" width="200" height="200">
+</div>
 
 ## 🌟 Introduction
 
