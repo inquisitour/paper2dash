@@ -1,7 +1,7 @@
 # 🧠 paper2dash
 
 <p align="center">
-  <img src="./assets/logo.png" alt="Project Logo" width="200" height="200">
+  <img src="./assets/logo.png" alt="Project Logo" width="400" height="200">
 </p>
 
 ## 🌟 Introduction
