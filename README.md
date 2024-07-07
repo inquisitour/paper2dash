@@ -6,7 +6,7 @@
 
 ## 🌟 Introduction
 
-Welcome to the Equilibrium Logic & Answer Set Programming (ASP) Dashboard! This interactive web application is designed to present key concepts and findings from cutting-edge research in the field of nonmonotonic reasoning and logic programming.
+Welcome to paper2dash! This interactive web application is designed to present key concepts and findings from cutting-edge research in the field of nonmonotonic reasoning and logic programming.
 
 Built with Dash and Plotly, this dashboard offers an engaging and user-friendly interface to explore various aspects of equilibrium logic, including background information, encodings, complexity analysis, and more.
 
@@ -24,12 +24,12 @@ Built with Dash and Plotly, this dashboard offers an engaging and user-friendly 
 
 1. Clone this repository:
    ```
-   git clone https://github.com/yourusername/equilibrium-logic-dashboard.git
+   git clone https://github.com/inquisitour/paper2dash.git
    ```
 
 2. Navigate to the project directory:
    ```
-   cd equilibrium-logic-dashboard
+   cd paper2dash
    ```
 
 3. Create a virtual environment (optional but recommended):
@@ -136,13 +136,14 @@ This project is licensed under the MIT License. See the [LICENSE](LICENSE) file 
 
 ## 🙏 Acknowledgements
 
-- This dashboard is based on the paper "Equilibrium Logic and Answer Set Programming" by [Author Name(s)]
+- This dashboard is based on the paper "Characterising Equilibrium Logic and Nested Logic Programs: Reductions and Complexity"
+- Authors : DAVID PEARCE, HANS TOMPITS, STEFAN WOLTRAN
 - Dash and Plotly for providing the framework and visualization tools
 - The open-source community for various libraries and resources used in this project
 
 ## 📞 Contact
 
-For any questions or feedback, please open an issue on this repository or contact [Your Name] at [your.email@example.com].
+For any questions or feedback, please open an issue on this repository or contact [Pratik Deshmukh] at [deshmukhpratik931@gmail.com].
 
 ---
 
