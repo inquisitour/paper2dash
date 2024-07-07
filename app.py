@@ -1,22 +1,24 @@
 import dash
-from dash import dcc, html
-from layout import app_layout
+from dash import html, dcc
+from layout import create_layout
 from callbacks import register_callbacks
 
-external_stylesheets = [
-    'https://codepen.io/chriddyp/pen/bWLwgP.css',
-    {
-        'href': 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-AMS-MML_HTMLorMML',
-        'rel': 'stylesheet',
-        'type': 'text/javascript'
-    }
-]
+# Initialize the Dash app
+app = dash.Dash(__name__, 
+                suppress_callback_exceptions=True,
+                external_stylesheets=[
+                    'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css'
+                ])
 
-app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
-app.title = 'Equilibrium Logic Dashboard'
-app.layout = app_layout
+# Set the app title
+app.title = 'paper2dash'
 
+# Create the app layout
+app.layout = create_layout()
+
+# Register callbacks
 register_callbacks(app)
 
+# Run the app
 if __name__ == '__main__':
     app.run_server(debug=True)

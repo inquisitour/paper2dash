@@ -1,0 +1,1157 @@
+{
+  "overview": {
+    "title": "Overview",
+    "paragraphs": [
+      "The paper addresses equilibrium logic, a framework extending stable-model and answer-set semantics to the full propositional language, including nested logic programs.",
+      "It provides polynomial reductions of primary reasoning tasks associated with equilibrium logic and nested logic programs into quantified propositional logic (QBF).",
+      "The tasks include consistency, brave reasoning, skeptical reasoning, and equivalence testing (ordinary, strong, and uniform equivalence).",
+      "The paper offers a uniform axiomatization for a variety of problems using a common language, employing QBF solvers as inference engines, and relating equilibrium logic with circumscription."
+    ]
+  },
+  "background": {
+    "title": "Background",
+    "sections": [
+      {
+        "title": "Propositional Language",
+        "content": [
+          "The language consists of logical connectives (¬, ∨, ∧, ⊃), constants (⊤, ⊥), punctuation symbols, and variables.",
+          "Formulas are constructed inductively, with logical complexity (lc) defined by occurrences of logical symbols.",
+          "Interpretations are sets of variables representing truth assignments."
+        ]
+      },
+      {
+        "title": "Equilibrium Logic",
+        "content": [
+          "HT-Logic is based on Kripke semantics with two worlds ('here' (H) and 'there' (T)) and a partial ordering H ≤ T.",
+          "HT-Interpretations are ordered pairs ⟨I_H, I_T⟩ with I_H ⊆ I_T. Truth values are defined for each world, with specific rules for negation, conjunction, disjunction, and implication.",
+          "Models include HT-models and total HT-interpretations ⟨I, I⟩. A formula is HT-satisfiable if it has an HT-interpretation, and HT-valid if all interpretations satisfy it.",
+          "Equilibrium Models are minimal total HT-interpretations satisfying specific conditions. These models form the basis of nonmonotonic reasoning in equilibrium logic.",
+          "Reasoning Tasks include consistency (existence of equilibrium model), brave reasoning (satisfaction by some equilibrium model), and skeptical reasoning (satisfaction by all equilibrium models)."
+        ]
+      },
+      {
+        "title": "Logic Programs",
+        "content": [
+          "Logic Programs consist of rules with heads and bodies as expressions (formulas without ⊃).",
+          "Stable Models are derived by minimizing models of program reducts. Program reducts are obtained by evaluating negations with respect to interpretations.",
+          "Examples and Properties illustrate anti-chain properties and equivalences between stable models and equilibrium models."
+        ]
+      },
+      {
+        "title": "Quantified Propositional Logic",
+        "content": [
+          "The syntax extends classical propositional logic with quantifiers ∀ and ∃. Formulas include bound and free variables, and can be transformed into prenex normal form.",
+          "The semantics are based on evaluations using interpretations. QBFs are evaluated using rules for quantifiers and logical connectives.",
+          "Properties include relations for shifting and renaming quantifiers, and the formation of formulas in prenex normal form."
+        ]
+      }
+    ]
+  },
+  "encodings": {
+    "title": "Encodings",
+    "sections": [
+      {
+        "title": "HT-satisfiability (τ)",
+        "content": [
+          "Translation τ[φ] is inductively defined for atomic formulas, conjunctions, disjunctions, negations, and implications.",
+          "Example: For φ = (p1 ⊃ p2) ⊃ (p3 ⊃ p4), τ[φ] = ((p1 ⊃ p2) ∧ (p'_1 ⊃ p'_2)) ⊃ ((p3 ⊃ p4) ∧ (p'_3 ⊃ p'_4)) ∧ ((p'_1 ⊃ p'_2) ⊃ (p'_3 ⊃ p'_4))."
+        ]
+      },
+      {
+        "title": "Here-and-There Logic (THT)",
+        "content": [
+          "Satisfiability in HT is encoded as T_HT[φ] = (V ≤ V') ∧ τ[φ].",
+          "The logical complexity of T_HT[φ] is super-linear in the size of the original formula φ."
+        ]
+      },
+      {
+        "title": "Equilibrium Logic (TE)",
+        "content": [
+          "Equilibrium Model Encoding: T_E[φ] = φ' ∧ ¬∃V ((V < V') ∧ τ[φ]).",
+          "The encoding ensures that ⟨I, I⟩ is an equilibrium model if and only if I' satisfies the formula."
+        ]
+      },
+      {
+        "title": "Logic Programs (TS)",
+        "content": [
+          "Stable Model Encoding uses τ[⋅] on program rules to form τ[Π].",
+          "Example: For a program Π = {p ← (q ∧ r) ∨ (¬q ∧ ¬s)}, the reduct and stable model evaluation is demonstrated.",
+          "Equilibrium Model Encoding for Programs is derived from T_E[⋅] for logic programs, using transformations that leverage program structure."
+        ]
+      },
+      {
+        "title": "Consistency",
+        "content": [
+          "Consistency is encoded by ensuring T has an equilibrium model if ∃V' T_E[T] is valid."
+        ]
+      },
+      {
+        "title": "Brave Reasoning",
+        "content": [
+          "Brave Reasoning is encoded by ensuring T ⊨_b φ if ∃W' (T_E[T] ∧ φ') is valid."
+        ]
+      },
+      {
+        "title": "Skeptical Reasoning",
+        "content": [
+          "Skeptical Reasoning is encoded by ensuring T ⊨_s φ if ∀W' (T_E[T] → φ') is valid."
+        ]
+      }
+    ]
+  },
+  "complexity": {
+    "title": "Complexity",
+    "sections": [
+      {
+        "title": "Reasoning Tasks",
+        "content": [
+          "The primary reasoning tasks in equilibrium logic include:",
+          "- Consistency: Checking whether a given theory has an equilibrium model.",
+          "- Brave Reasoning: Determining if a given formula is satisfied by at least one equilibrium model of a theory.",
+          "- Skeptical Reasoning: Determining if a given formula is satisfied by all equilibrium models of a theory."
+        ]
+      },
+      {
+        "title": "Complexity Proofs",
+        "content": [
+          "The paper provides detailed proofs for the complexity results, including:",
+          "- Membership proofs using the quantifier structure of the translations",
+          "- Hardness proofs by reduction from known hard problems",
+          "- Proofs for both equilibrium logic and nested logic programs"
+        ]
+      }
+    ],
+    "chart_data": [
+      {"Task": "HT-satisfiability", "Complexity": "NP", "ComplexityValue": 1},
+      {"Task": "HT-validity", "Complexity": "co-NP", "ComplexityValue": 2},
+      {"Task": "Consistency (EL/NLP)", "Complexity": "ΣP2", "ComplexityValue": 3},
+      {"Task": "Brave Reasoning (EL/NLP)", "Complexity": "ΣP2", "ComplexityValue": 3},
+      {"Task": "Skeptical Reasoning (EL/NLP)", "Complexity": "ΠP2", "ComplexityValue": 4},
+      {"Task": "Ordinary Equivalence", "Complexity": "ΠP2", "ComplexityValue": 4},
+      {"Task": "Uniform Equivalence", "Complexity": "ΠP2", "ComplexityValue": 4},
+      {"Task": "Strong Equivalence", "Complexity": "co-NP", "ComplexityValue": 2}
+    ]
+  },
+  "equivalence": {
+    "title": "Equivalence",
+    "sections": [
+      {
+        "title": "Ordinary Equivalence",
+        "content": [
+          "Two theories are ordinarily equivalent if they have the same equilibrium models.",
+          "Formally, theories T1 and T2 are ordinarily equivalent if for any interpretation I, I is an equilibrium model of T1 if and only if it is an equilibrium model of T2."
+        ]
+      },
+      {
+        "title": "Strong Equivalence",
+        "content": [
+          "Two theories are strongly equivalent if they remain equivalent when added to any other theory.",
+          "Formally, theories T1 and T2 are strongly equivalent if for any theory T, the combined theories T1 ∪ T and T2 ∪ T are ordinarily equivalent."
+        ]
+      },
+      {
+        "title": "Uniform Equivalence",
+        "content": [
+          "Two theories are uniformly equivalent if they are equivalent under all extensions by a set of facts.",
+          "Formally, theories T1 and T2 are uniformly equivalent if for any set of facts F, the combined theories T1 ∪ F and T2 ∪ F are ordinarily equivalent."
+        ]
+      }
+    ]
+  },
+  "circumscription": {
+    "title": "Circumscription",
+    "paragraphs": [
+      "Circumscription is a form of nonmonotonic reasoning introduced by McCarthy in 1980. It aims to infer the minimal models of a theory, making assumptions about the world to minimize the extension of some predicates.",
+      "In the context of equilibrium logic, circumscription can be related through polynomial reductions. Encodings for equilibrium logic can be shown to correspond to circumscription, extending results for disjunctive logic programs to nested logic programs.",
+      "The paper demonstrates the relationship between equilibrium logic and circumscription. It extends Lin's result for disjunctive logic programs to nested logic programs and equilibrium logic."
+    ]
+  },
+  "strong-negation": {
+    "title": "Strong Negation",
+    "paragraphs": [
+      "Strong negation is an extension of classical negation, allowing for the explicit representation of false information.",
+      "In equilibrium logic, strong negation can be represented and handled within the same framework, providing a more expressive tool for modeling knowledge and reasoning about incomplete or contradictory information.",
+      "The paper discusses the syntactic and semantic integration of strong negation into the logic, as well as its implications for the expressiveness and computational complexity of reasoning tasks."
+    ]
+  },
+  "related-works": {
+    "title": "Related Works",
+    "paragraphs": [
+      "The paper situates its contributions within the broader context of nonmonotonic reasoning and logic programming.",
+      "It discusses previous work on stable model semantics, answer set programming, circumscription, and other approaches to nonmonotonic reasoning.",
+      "The related works section highlights how the paper's approach differs from or builds upon these earlier efforts, providing a comprehensive review of the state-of-the-art in the field."
+    ]
+  },
+  "concluding-remarks": {
+    "title": "Concluding Remarks",
+    "paragraphs": [
+      "The paper concludes with a summary of the main contributions and findings.",
+      "It highlights the significance of polynomial reductions for reasoning tasks in equilibrium logic and nested logic programs.",
+      "The concluding remarks also suggest directions for future research, including potential extensions of the framework and applications in various domains of artificial intelligence."
+    ]
+  },
+  "appendix": {
+    "title": "Appendix",
+    "paragraphs": [
+      "The appendix provides additional proofs, examples, and technical details that support the main text.",
+      "It includes extended discussions on specific topics, detailed proofs of theorems, and additional examples that illustrate key concepts and results.",
+      "Readers are encouraged to refer to the appendix for a deeper understanding of the technical aspects and for supplementary information that complements the main text."
+    ]
+  },
+  "references": {
+    "title": "References",
+      "content": [
+        {
+          "authors": "Aguado, F., Cabalar, P., Pérez, G., & Vidal, C.",
+          "year": 2008,
+          "title": "Strongly equivalent temporal logic programs",
+          "publication": "Proceedings of the 11th European Conference on Logics in Artificial Intelligence (JELIA 2008)",
+          "details": "Vol. 5293, pp. 8-20. Springer."
+        },
+        {
+          "authors": "Arieli, O., & Denecker, M.",
+          "year": 2003,
+          "title": "Reducing preferential paraconsistent reasoning to classical entailment",
+          "publication": "Journal of Logic and Computation",
+          "details": "13(4), 557-580."
+        },
+        {
+          "authors": "Baral, C.",
+          "year": 2003,
+          "title": "Knowledge Representation, Reasoning and Declarative Problem Solving",
+          "publication": "Cambridge University Press"
+        },
+        {
+          "authors": "Ben-Eliyahu, R., & Dechter, R.",
+          "year": 1994,
+          "title": "Propositional semantics for disjunctive logic programs",
+          "publication": "Annals of Mathematics and Artificial Intelligence",
+          "details": "12, 53-87."
+        },
+        {
+          "authors": "Besnard, P., Schaub, T., Tompits, H., & Woltran, S.",
+          "year": 2005,
+          "title": "Representing paraconsistent reasoning via quantified propositional logic",
+          "publication": "Inconsistency Tolerance",
+          "details": "Vol. 3300, pp. 84-118. Springer."
+        },
+        {
+          "authors": "Biere, A.",
+          "year": 2005,
+          "title": "Resolve and expand",
+          "publication": "Proceedings of the 7th International Conference on Theory and Applications of Satisfiability Testing (SAT 2004)",
+          "details": "Vol. 3542, pp. 59-70. Springer."
+        },
+        {
+          "authors": "Brewka, G.",
+          "year": 2002,
+          "title": "Logic programming with ordered disjunction",
+          "publication": "Proceedings of the 18th National Conference on Artificial Intelligence (AAAI 2002)",
+          "details": "pp. 100-105. AAAI Press."
+        },
+        {
+          "authors": "Brewka, G., Niemelä, I., & Syrjänen, T.",
+          "year": 2004,
+          "title": "Logic programs with ordered disjunctions",
+          "publication": "Computational Intelligence",
+          "details": "20(2), 335-357."
+        },
+        {
+          "authors": "de Bruijn, J., Eiter, T., Polleres, A., & Tompits, H.",
+          "year": 2007,
+          "title": "Embedding nonground logic programs into autoepistemic logic for knowledge-base combination",
+          "publication": "Proceedings of the 20th International Joint Conference on Artificial Intelligence (IJCAI 2007)",
+          "details": "pp. 304-309. AAAI Press."
+        },
+        {
+          "authors": "Cabalar, P., & Ferraris, P.",
+          "year": 2007,
+          "title": "Propositional theories are strongly equivalent to logic programs",
+          "publication": "Theory and Practice of Logic Programming",
+          "details": "7(6), 745-759."
+        },
+        {
+          "authors": "Cabalar, P., Pearce, D., & Valverde, A.",
+          "year": 2005,
+          "title": "Reducing propositional theories in equilibrium logic to logic programs",
+          "publication": "Proceedings of the 12th Portuguese Conference on Artificial Intelligence (EPIA 2005)",
+          "details": "Vol. 3808, pp. 4-17. Springer."
+        },
+        {
+          "authors": "Cabalar, P., Pearce, D., & Valverde, A.",
+          "year": 2007,
+          "title": "Minimal logic programs",
+          "publication": "Proceedings of the 23rd International Conference on Logic Programming (ICLP 2007)",
+          "details": "Vol. 4670, pp. 104-118. Springer."
+        },
+        {
+          "authors": "Cabalar, P., & Pérez Vega, G.",
+          "year": 2007,
+          "title": "Temporal equilibrium logic: A first approach",
+          "publication": "Proceedings of the 11th International Conference on Computer Aided Systems Theory (EUROCAST 2007)",
+          "details": "Vol. 4739, pp. 241-248. Springer."
+        },
+        {
+          "authors": "Chen, J.",
+          "year": 1993,
+          "title": "Minimal knowledge + negation as failure = only knowing (sometimes)",
+          "publication": "Proceedings of the 2nd International Workshop on Logic Programming and Nonmonotonic Reasoning (LPNMR '93)",
+          "details": "pp. 132-150. MIT Press."
+        },
+        {
+          "authors": "Chen, Y., Lin, F., & Li, L.",
+          "year": 2005,
+          "title": "SELP - A system for studying strong equivalence between logic programs",
+          "publication": "Proceedings of the 8th International Conference on Logic Programming and Nonmonotonic Reasoning (LPNMR 2005)",
+          "details": "Vol. 3662, pp. 442-446. Springer."
+        },
+        {
+          "authors": "Church, A.",
+          "year": 1956,
+          "title": "Introduction to Mathematical Logic, Volume I",
+          "publication": "Princeton University Press"
+        },
+        {
+          "authors": "Clark, K. L.",
+          "year": 1978,
+          "title": "Negation as failure",
+          "publication": "Logic and Data Bases",
+          "details": "pp. 127-138. Plenum Press."
+        },
+        {
+          "authors": "van Dalen, D.",
+          "year": 1986,
+          "title": "Intuitionistic logic",
+          "publication": "Handbook of Philosophical Logic, Volume III: Alternatives to Classical Logic",
+          "details": "Vol. 166, pp. 225-339. D. Reidel Publishing Co."
+        },
+        {
+          "authors": "Delgrande, J., Schaub, T., Tompits, H., & Woltran, S.",
+          "year": 2004,
+          "title": "On computing solutions to belief change scenarios",
+          "publication": "Journal of Logic and Computation",
+          "details": "14(6), 801-826."
+        },
+        {
+          "authors": "Dix, J., Gottlob, G., & Marek, V.",
+          "year": 1996,
+          "title": "Reducing disjunctive to non-disjunctive semantics by shift-operations",
+          "publication": "Fundamenta Informaticae",
+          "details": "XXVIII(1/2), 87-100."
+        },
+        {
+          "authors": "Egly, U., Eiter, T., Tompits, H., & Woltran, S.",
+          "year": 2000,
+          "title": "Solving advanced reasoning tasks using quantified Boolean formulas",
+          "publication": "Proceedings of the 17th National Conference on Artificial Intelligence (AAAI 2000)",
+          "details": "pp. 417-422. AAAI Press/MIT Press."
+        },
+        {
+          "authors": "Egly, U., Seidl, M., Tompits, H., Woltran, S., & Zolda, M.",
+          "year": 2004,
+          "title": "Comparing different prenexing strategies for quantified Boolean formulas",
+          "publication": "Proceedings of the 6th International Conference on Theory and Applications of Satisfiability Testing (SAT 2003). Selected Revised Papers",
+          "details": "Vol. 2919, pp. 214-228. Springer."
+        },
+        {
+          "authors": "Egly, U., Seidl, M., & Woltran, S.",
+          "year": 2006,
+          "title": "A solver for QBFs in nonprenex form",
+          "publication": "Proceedings of the 17th European Conference on Artificial Intelligence (ECAI 2006)",
+          "details": "pp. 477-481. IOS Press."
+        },
+        {
+          "authors": "Eiter, T., Faber, W., & Traxler, P.",
+          "year": 2005,
+          "title": "Testing strong equivalence of nonmonotonic datalog programs - implementation and examples",
+          "publication": "Proceedings of the 8th International Conference on Logic Programming and Nonmonotonic Reasoning (LPNMR 2005)",
+          "details": "Vol. 3662, pp. 437-441. Springer."
+        },
+        {
+          "authors": "Eiter, T., & Fink, M.",
+          "year": 2003,
+          "title": "Uniform equivalence of logic programs under the stable model semantics",
+          "publication": "Proceedings of the 19th International Conference on Logic Programming (ICLP 2003)",
+          "details": "Vol. 2916, pp. 224-238. Springer."
+        },
+        {
+          "authors": "Eiter, T., Fink, M., Tompits, H., & Woltran, S.",
+          "year": 2004,
+          "title": "On eliminating disjunctions in stable logic programming",
+          "publication": "Proceedings of the 9th International Conference on Principles of Knowledge Representation and Reasoning (KR 2004)",
+          "details": "pp. 447-458. AAAI Press."
+        },
+        {
+          "authors": "Eiter, T., Fink, M., Tompits, H., & Woltran, S.",
+          "year": 2004,
+          "title": "Simplifying logic programs under uniform and strong equivalence",
+          "publication": "Proceedings of the 7th International Conference on Logic Programming and Nonmonotonic Reasoning (LPNMR 2004)",
+          "details": "Vol. 2923, pp. 87-99. Springer."
+        },
+        {
+          "authors": "Eiter, T., Fink, M., & Woltran, S.",
+          "year": 2007,
+          "title": "Semantical characterizations and complexity of equivalences in answer set programming",
+          "publication": "ACM Transactions on Computational Logic",
+          "details": "8(3), 1-53."
+        },
+        {
+          "authors": "Eiter, T., & Gottlob, G.",
+          "year": 1995,
+          "title": "On the computational cost of disjunctive logic programming: Propositional case",
+          "publication": "Annals of Mathematics and Artificial Intelligence",
+          "details": "15(3-4), 289-323."
+        },
+        {
+          "authors": "Eiter, T., Gottlob, G., & Mannila, H.",
+          "year": 1997,
+          "title": "Disjunctive Datalog",
+          "publication": "ACM Transactions on Database Systems",
+          "details": "22(3), 364-418."
+        },
+        {
+          "authors": "Eiter, T., Klotz, V., Tompits, H., & Woltran, S.",
+          "year": 2002,
+          "title": "Modal nonmonotonic logics revisited: Efficient encodings for the basic reasoning tasks",
+          "publication": "Proceedings of the 11th International Conference on Automated Reasoning with Analytic Tableaux and Related Methods (TABLEAUX 2002)",
+          "details": "Vol. 2381, pp. 100-114. Springer."
+        },
+        {
+          "authors": "Eiter, T., Tompits, H., & Woltran, S.",
+          "year": 2005,
+          "title": "On solution correspondences in answer set programming",
+          "publication": "Proceedings of the 19th International Joint Conference on Artificial Intelligence (IJCAI 2005)",
+          "details": "pp. 97-102. Professional Book Center."
+        },
+        {
+          "authors": "Erdem, E., & Lifschitz, V.",
+          "year": 2001,
+          "title": "Fages' theorem for programs with nested expressions",
+          "publication": "Proceedings of the 18th International Conference on Logic Programming (ICLP 2001)",
+          "details": "Vol. 2237, pp. 242-254. Springer."
+        },
+        {
+          "authors": "Erdem, E., & Lifschitz, V.",
+          "year": 2003,
+          "title": "Tight logic programs",
+          "publication": "Theory and Practice of Logic Programming",
+          "details": "3(4-5), 499-518."
+        },
+        {
+          "authors": "Faber, W., & Konczak, K.",
+          "year": 2005,
+          "title": "Strong equivalence for logic programs with preferences",
+          "publication": "Proceedings of the 19th International Joint Conference on Artificial Intelligence (IJCAI 2005)",
+          "details": "pp. 430-435. Professional Book Center."
+        },
+        {
+          "authors": "Faber, W., Tompits, H., & Woltran, S.",
+          "year": 2008,
+          "title": "Notions of strong equivalence for logic programs with ordered disjunction",
+          "publication": "Proceedings of the 11th International Conference on Principles of Knowledge Representation and Reasoning (KR 2008)",
+          "details": "pp. 433-443. AAAI Press."
+        },
+        {
+          "authors": "Fages, F.",
+          "year": 1994,
+          "title": "Consistency of Clark's completion and existence of stable models",
+          "publication": "Methods of Logic in Computer Science",
+          "details": "1, 51-60."
+        },
+        {
+          "authors": "Ferraris, P.",
+          "year": 2005,
+          "title": "Answer sets for propositional theories",
+          "publication": "Proceedings of the 8th International Conference on Logic Programming and Nonmonotonic Reasoning (LPNMR 2005)",
+          "details": "Vol. 3662, pp. 119-131. Springer."
+        },
+        {
+          "authors": "Ferraris, P., Lee, J., & Lifschitz, V.",
+          "year": 2006,
+          "title": "A generalization of the Lin-Zhao theorem",
+          "publication": "Annals of Mathematics and Artificial Intelligence",
+          "details": "47(1-2), 79-101."
+        },
+        {
+          "authors": "Ferraris, P., Lee, J., & Lifschitz, V.",
+          "year": 2007,
+          "title": "A new perspective on stable models",
+          "publication": "Proceedings of the 20th International Joint Conference on Artificial Intelligence (IJCAI 2007)",
+          "details": "pp. 372-379. AAAI Press."
+        },
+        {
+          "authors": "Fink, M.",
+          "year": 2008,
+          "title": "Equivalences in answer-set programming by countermodels in the logic of here-and-there",
+          "publication": "Proceedings of the 24th International Conference on Logic Programming (ICLP 2008)",
+          "details": "Vol. 5366, pp. 99-113. Springer."
+        },
+        {
+          "authors": "Garey, M. R., & Johnson, D. S.",
+          "year": 1979,
+          "title": "Computers and Intractability",
+          "publication": "W. H. Freeman"
+        },
+        {
+          "authors": "Gebser, M., Lee, J., & Lierler, Y.",
+          "year": 2006,
+          "title": "Elementary sets for logic programs",
+          "publication": "Proceedings of the 21st National Conference on Artificial Intelligence (AAAI 2006)",
+          "details": "pp. 244-249. AAAI Press."
+        },
+        {
+          "authors": "Gebser, M., Schaub, T., Tompits, H., & Woltran, S.",
+          "year": 2008,
+          "title": "Alternative characterizations for program equivalence under answer-set semantics based on unfounded sets",
+          "publication": "Proceedings of the 5th International Symposium on Foundations of Information and Knowledge Systems (FoIKS 2008)",
+          "details": "Vol. 4932, pp. 24-41. Springer."
+        },
+        {
+          "authors": "van Gelder, A., Ross, K., & Schlipf, J.",
+          "year": 1991,
+          "title": "The well-founded semantics for general logic programs",
+          "publication": "Journal of the ACM",
+          "details": "38(3), 620-650."
+        },
+        {
+          "authors": "Gelfond, M.",
+          "year": 1987,
+          "title": "On stratified autoepistemic theories",
+          "publication": "Proceedings of the 6th National Conference on Artificial Intelligence (AAAI '87)",
+          "details": "pp. 207-211. AAAI Press/MIT Press."
+        },
+        {
+          "authors": "Gelfond, M., & Lifschitz, V.",
+          "year": 1991,
+          "title": "Classical negation in logic programs and disjunctive databases",
+          "publication": "New Generation Computing",
+          "details": "9(3-4), 365-385."
+        },
+        {
+          "authors": "Gelfond, M., Lifschitz, V., Przymusinska, H., & Schwarz, G.",
+          "year": 1994,
+          "title": "Autoepistemic logic and introspective circumscription",
+          "publication": "Proceedings of the 5th Conference on Theoretical Aspects of Reasoning about Knowledge (TARK '94)",
+          "details": "pp. 197-207."
+        },
+        {
+          "authors": "Gelfond, M., Lifschitz, V., Przymusinska, H., & Truszczyński, M.",
+          "year": 1991,
+          "title": "Disjunctive defaults",
+          "publication": "Proceedings of the 2nd Conference on Principles of Knowledge Representation and Reasoning (KR '91)",
+          "details": "pp. 230-237. Morgan Kaufmann."
+        },
+        {
+          "authors": "Gelfond, M., Przymusinska, H., & Przymusinski, T. C.",
+          "year": 1989,
+          "title": "On the relationship between circumscription and negation as failure",
+          "publication": "Artificial Intelligence",
+          "details": "38(1), 75-94."
+        },
+        {
+          "authors": "Gelfond, M., Przymusinska, H., & Przymusinski, T. C.",
+          "year": 1990,
+          "title": "On the relationship between CWA, minimal model, and minimal Herbrand model semantics",
+          "publication": "International Journal of Intelligent Systems",
+          "details": "5, 549-564."
+        },
+        {
+          "authors": "Giunchiglia, E., Narizzano, M., & Tacchella, A.",
+          "year": 2003,
+          "title": "Backjumping for quantified Boolean logic satisfiability",
+          "publication": "Artificial Intelligence",
+          "details": "145, 99-120."
+        },
+        {
+          "authors": "Gödel, K.",
+          "year": 1932,
+          "title": "Zum intuitionistischen Aussagenkalkül",
+          "publication": "Anzeiger der Akademie der Wissenschaften in Wien",
+          "details": "65-66."
+        },
+        {
+          "authors": "Gurevich, Y.",
+          "year": 1977,
+          "title": "Intuitionistic logic with strong negation",
+          "publication": "Studia Logica",
+          "details": "36(1-2), 49-59."
+        },
+        {
+          "authors": "Heyting, A.",
+          "year": 1930,
+          "title": "Die formalen Regeln der intuitionistischen Logik",
+          "publication": "Sitzungsberichte der Preussischen Akademie der Wissenschaften",
+          "details": "42-56. Reprint in Logik-Texte: Kommentierte Auswahl zur Geschichte der Modernen Logik, Akademie-Verlag, 1986."
+        },
+        {
+          "authors": "Inoue, K., & Sakama, C.",
+          "year": 1998,
+          "title": "Negation as failure in the head",
+          "publication": "Journal of Logic Programming",
+          "details": "35(1), 39-78."
+        },
+        {
+          "authors": "Inoue, K., & Sakama, C.",
+          "year": 2004,
+          "title": "Equivalence of logic programs under updates",
+          "publication": "Proceedings of the 9th European Conference on Logics in Artificial Intelligence (JELIA 2004)",
+          "details": "Vol. 3229, pp. 174-186. Springer."
+        },
+        {
+          "authors": "Janhunen, T.",
+          "year": 2001,
+          "title": "On the effect of default negation on the expressiveness of disjunctive rules",
+          "publication": "Proceedings of the 6th International Conference on Logic Programming and Nonmonotonic Reasoning (LPNMR 2001)",
+          "details": "Vol. 2173, pp. 93-106. Springer."
+        },
+        {
+          "authors": "Janhunen, T.",
+          "year": 2004,
+          "title": "Representing normal programs with clauses",
+          "publication": "Proceedings of the 16th European Conference on Artificial Intelligence (ECAI 2004)",
+          "details": "pp. 358-362. IOS Press."
+        },
+        {
+          "authors": "Janhunen, T., & Oikarinen, E.",
+          "year": 2002,
+          "title": "Testing the equivalence of logic programs under stable model semantics",
+          "publication": "Proceedings of the 8th European Conference on Logics in Artificial Intelligence (JELIA 2002)",
+          "details": "Vol. 2424, pp. 493-504. Springer."
+        },
+        {
+          "authors": "de Jongh, D., & Hendriks, L.",
+          "year": 2003,
+          "title": "Characterizations of strongly equivalent logic programs in intermediate logics",
+          "publication": "Theory and Practice of Logic Programming",
+          "details": "3(3), 259-270."
+        },
+        {
+          "authors": "Kowalski, V.",
+          "year": 1968,
+          "title": "The calculus of the weak \"law of excluded middle\"",
+          "publication": "Mathematics of the USSR",
+          "details": "8, 648-658."
+        },
+        {
+          "authors": "Lee, J.",
+          "year": 2005,
+          "title": "A model-theoretic counterpart of loop formulas",
+          "publication": "Proceedings of the 19th International Joint Conference on Artificial Intelligence (IJCAI 2005)",
+          "details": "pp. 503-508. Professional Book Center."
+        },
+        {
+          "authors": "Lee, J., & Lifschitz, V.",
+          "year": 2003,
+          "title": "Loop formulas for disjunctive logic programs",
+          "publication": "Proceedings of the 19th International Conference on Logic Programming (ICLP 2003)",
+          "details": "Vol. 2916, pp. 451-465. Springer."
+        },
+        {
+          "authors": "Lee, J., Lifschitz, V., & Palla, R.",
+          "year": 2008,
+          "title": "A reductive semantics for counting and choice in answer set programming",
+          "publication": "Proceedings of the 23rd National Conference on Artificial Intelligence (AAAI 2008)",
+          "details": "pp. 472-479. AAAI Press."
+        },
+        {
+          "authors": "Leone, N., Pfeifer, G., Faber, W., Eiter, T., Gottlob, G., Perri, S., & Scarcello, F.",
+          "year": 2006,
+          "title": "The DLV system for knowledge representation and reasoning",
+          "publication": "ACM Transactions on Computational Logic",
+          "details": "7(3), 499-562."
+        },
+        {
+          "authors": "Leśniewski, S.",
+          "year": 1929,
+          "title": "Grundzüge eines neuen Systems der Grundlagen der Mathematik",
+          "publication": "Fundamenta Mathematica",
+          "details": "14, 1-81."
+        },
+        {
+          "authors": "Letz, R.",
+          "year": 2002,
+          "title": "Lemma and model caching in decision procedures for quantified Boolean formulas",
+          "publication": "Proceedings of the 11th International Conference on Automated Reasoning with Analytic Tableaux and Related Methods (TABLEAUX 2002)",
+          "details": "Vol. 2381, pp. 160-175. Springer."
+        },
+        {
+          "authors": "Lierler, Y.",
+          "year": 2005,
+          "title": "Disjunctive answer set programming via satisfiability",
+          "publication": "Proceedings of the 8th International Conference on Logic Programming and Nonmonotonic Reasoning (LPNMR 2005)",
+          "details": "Vol. 3662, pp. 447-451. Springer."
+        },
+        {
+          "authors": "Lifschitz, V.",
+          "year": 1989,
+          "title": "Between circumscription and autoepistemic logic",
+          "publication": "Proceedings of the 1st International Conference on Principles of Knowledge Representation and Reasoning (KR '89)",
+          "details": "pp. 235-244. Morgan Kaufmann."
+        },
+        {
+          "authors": "Lifschitz, V.",
+          "year": 1994,
+          "title": "Circumscription",
+          "publication": "Handbook of Logic in Artificial Intelligence and Logic Programming",
+          "details": "pp. 297-352. Clarendon Press."
+        },
+        {
+          "authors": "Lifschitz, V., Pearce, D., & Valverde, A.",
+          "year": 2001,
+          "title": "Strongly equivalent logic programs",
+          "publication": "ACM Transactions on Computational Logic",
+          "details": "2(4), 526-541."
+        },
+        {
+          "authors": "Lifschitz, V., Pearce, D., & Valverde, A.",
+          "year": 2007,
+          "title": "A characterization of strong equivalence for logic programs with variables",
+          "publication": "Proceedings of the 9th International Conference on Logic Programming and Nonmonotonic Reasoning (LPNMR 2007)",
+          "details": "Vol. 4483, pp. 188-200. Springer."
+        },
+        {
+          "authors": "Lifschitz, V., & Schwarz, G.",
+          "year": 1993,
+          "title": "Extended logic programs as autoepistemic theories",
+          "publication": "Proceedings of the 2nd International Workshop on Logic Programming and Nonmonotonic Reasoning (LPNMR '93)",
+          "details": "pp. 101-114. MIT Press."
+        },
+        {
+          "authors": "Lifschitz, V., Tang, L., & Turner, H.",
+          "year": 1999,
+          "title": "Nested expressions in logic programs",
+          "publication": "Annals of Mathematics and Artificial Intelligence",
+          "details": "25(3-4), 369-389."
+        },
+        {
+          "authors": "Lifschitz, V., & Turner, H.",
+          "year": 1994,
+          "title": "Splitting a logic program",
+          "publication": "Proceedings of the 11th International Conference on Logic Programming (ICLP '94)",
+          "details": "pp. 23-38. MIT Press."
+        },
+        {
+          "authors": "Lin, F.",
+          "year": 1991,
+          "title": "A Study of Nonmonotonic Reasoning",
+          "publication": "Ph.D. thesis, Stanford University, California, USA"
+        },
+        {
+          "authors": "Lin, F.",
+          "year": 2002,
+          "title": "Reducing strong equivalence of logic programs to entailment in classical propositional logic",
+          "publication": "Proceedings of the 8th International Conference on Principles of Knowledge Representation and Reasoning (KR 2002)",
+          "details": "pp. 170-176. Morgan Kaufmann."
+        },
+        {
+          "authors": "Lin, F., & Zhao, Y.",
+          "year": 2002,
+          "title": "ASSAT: Computing answer sets of a logic program by SAT solvers",
+          "publication": "Proceedings of the 18th National Conference on Artificial Intelligence (AAAI 2002)",
+          "details": "pp. 112-117. AAAI Press/MIT Press."
+        },
+        {
+          "authors": "Linke, T., Tompits, H., & Woltran, S.",
+          "year": 2004,
+          "title": "On acyclic and head-cycle free nested logic programs",
+          "publication": "Proceedings of the 20th International Conference on Logic Programming (ICLP 2004)",
+          "details": "Vol. 3132, pp. 225-239. Springer."
+        },
+        {
+          "authors": "Liu, L., & Truszczyński, M.",
+          "year": 2005,
+          "title": "Properties of programs with monotone and convex constraints",
+          "publication": "Proceedings of the 20th National Conference on Artificial Intelligence (AAAI 2005)",
+          "details": "pp. 701-706. AAAI Press."
+        },
+        {
+          "authors": "Lukasiewicz, J., & Tarski, A.",
+          "year": 1930,
+          "title": "Untersuchungen über den Aussagenkalkül",
+          "publication": "Comptes Rendus Séances Société des Sciences et Lettres Varsovie",
+          "details": "23, 30-50."
+        },
+        {
+          "authors": "Maher, M. J.",
+          "year": 1988,
+          "title": "Equivalence of logic programs",
+          "publication": "Foundations of Deductive Databases and Logic Programming",
+          "details": "pp. 627-658. Morgan Kaufmann."
+        },
+        {
+          "authors": "Marek, V. W., & Truszczyński, M.",
+          "year": 1993,
+          "title": "Reflexive autoepistemic logic and logic programming",
+          "publication": "Proceedings of the 2nd International Workshop on Logic Programming and Nonmonotonic Reasoning (LPNMR '93)",
+          "details": "pp. 115-131. MIT Press."
+        },
+        {
+          "authors": "McCarthy, J.",
+          "year": 1980,
+          "title": "Circumscription - a form of nonmonotonic reasoning",
+          "publication": "Artificial Intelligence",
+          "details": "13, 27-39."
+        },
+        {
+          "authors": "McCluskey, E. J.",
+          "year": 1956,
+          "title": "Minimization of boolean functions",
+          "publication": "Bell System Technical Journal",
+          "details": "35, 1417-1444."
+        },
+        {
+          "authors": "Meyer, A. R., & Stockmeyer, L. J.",
+          "year": 1973,
+          "title": "Word problems requiring exponential time",
+          "publication": "ACM Symposium on Theory of Computing (STOC '73)",
+          "details": "pp. 1-9. ACM Press."
+        },
+        {
+          "authors": "Moore, R. C.",
+          "year": 1985,
+          "title": "Semantical considerations on nonmonotonic logic",
+          "publication": "Artificial Intelligence",
+          "details": "25, 75-94."
+        },
+        {
+          "authors": "Mundici, D.",
+          "year": 1987,
+          "title": "Satisfiability in many-valued sentential logic is NP-complete",
+          "publication": "Theoretical Computer Science",
+          "details": "52(1-2), 145-153."
+        },
+        {
+          "authors": "Nelson, D.",
+          "year": 1949,
+          "title": "Constructible falsity",
+          "publication": "Journal of Symbolic Logic",
+          "details": "14(2), 16-26."
+        },
+        {
+          "authors": "Oetsch, J., Seidl, M., Tompits, H., & Woltran, S.",
+          "year": 2006,
+          "title": "cc⊤: A correspondence-checking tool for logic programs under the answer-set semantics",
+          "publication": "Proceedings of the 10th European Conference on Logics in Artificial Intelligence (JELIA 2006)",
+          "details": "Vol. 4160, pp. 502-505. Springer."
+        },
+        {
+          "authors": "Oetsch, J., Seidl, M., Tompits, H., & Woltran, S.",
+          "year": 2006,
+          "title": "cc⊤: A tool for checking advanced correspondence problems in answer-set programming",
+          "publication": "Proceedings of the 15th International Conference on Computing (CIC 2006)",
+          "details": "pp. 3-10. IEEE Computer Society Press."
+        },
+        {
+          "authors": "Oetsch, J., Seidl, M., Tompits, H., & Woltran, S.",
+          "year": 2007,
+          "title": "An extension of the system cc⊤ for testing relativised uniform equivalence under answer-set projection",
+          "publication": "Proceedings of the 16th International Conference on Computing (CIC 2007)"
+        },
+        {
+          "authors": "Oetsch, J., Tompits, H., & Woltran, S.",
+          "year": 2007,
+          "title": "Facts do not cease to exist because they are ignored: Relativised uniform equivalence with answer-set projection",
+          "publication": "Proceedings of the 22nd National Conference on Artificial Intelligence (AAAI 2007)",
+          "details": "pp. 458-464. AAAI Press."
+        },
+        {
+          "authors": "Oikarinen, E., & Janhunen, T.",
+          "year": 2004,
+          "title": "Verifying the equivalence of logic programs in the disjunctive case",
+          "publication": "Proceedings of the 7th International Conference on Logic Programming and Nonmonotonic Reasoning (LPNMR 2004)",
+          "details": "Vol. 2923, pp. 180-193. Springer."
+        },
+        {
+          "authors": "Oikarinen, E., & Janhunen, T.",
+          "year": 2006,
+          "title": "Modular equivalence for normal logic programs",
+          "publication": "Proceedings of the 11th International Workshop on Nonmonotonic Reasoning (NMR 2006)",
+          "details": "pp. 10-18. University of Clausthal, Department of Informatics, Technical Report, IfI-06-04."
+        },
+        {
+          "authors": "Osorio, M., Navarro, J. A., & Arrazola, J.",
+          "year": 2005,
+          "title": "Safe beliefs for propositional theories",
+          "publication": "Annals of Pure and Applied Logic",
+          "details": "134(1), 63-82."
+        },
+        {
+          "authors": "Papadimitriou, C.",
+          "year": 1994,
+          "title": "Computational Complexity",
+          "publication": "Addison-Wesley"
+        },
+        {
+          "authors": "Pearce, D.",
+          "year": 1997,
+          "title": "A new logical characterisation of stable models and answer sets",
+          "publication": "Non-Monotonic Extensions of Logic Programming",
+          "details": "Vol. 1216, pp. 57-70. Springer."
+        },
+        {
+          "authors": "Pearce, D.",
+          "year": 1999,
+          "title": "From here to there: Stable negation in logic programming",
+          "publication": "What is Negation?",
+          "details": "pp. 161-181. Kluwer."
+        },
+        {
+          "authors": "Pearce, D.",
+          "year": 2004,
+          "title": "Simplifying logic programs under answer set semantics",
+          "publication": "Proceedings of the 20th International Conference on Logic Programming (ICLP 2004)",
+          "details": "Vol. 3132, pp. 210-224. Springer."
+        },
+        {
+          "authors": "Pearce, D.",
+          "year": 2006,
+          "title": "Equilibrium logic",
+          "publication": "Annals of Mathematics and Artificial Intelligence",
+          "details": "47, 3-41."
+        },
+        {
+          "authors": "Pearce, D., de Guzmán, I., & Valverde, A.",
+          "year": 2000,
+          "title": "Computing equilibrium models using signed formulas",
+          "publication": "Proceedings of the 1st International Conference on Computational Logic (CL 2000)",
+          "details": "Vol. 1861, pp. 688-702. Springer."
+        },
+        {
+          "authors": "Pearce, D., de Guzmán, I., & Valverde, A.",
+          "year": 2000,
+          "title": "A tableau calculus for equilibrium entailment",
+          "publication": "Proceedings of the 9th International Conference on Automated Reasoning with Analytic Tableaux and Related Methods (TABLEAUX 2000)",
+          "details": "Vol. 1847, pp. 352-367. Springer."
+        },
+        {
+          "authors": "Pearce, D., Sarsakov, V., Schaub, T., Tompits, H., & Woltran, S.",
+          "year": 2002,
+          "title": "A polynomial translation of logic programs with nested expressions into disjunctive logic programs: Preliminary report",
+          "publication": "Proceedings of the 19th International Conference on Logic Programming (ICLP 2002)",
+          "details": "Vol. 2401, pp. 405-420. Springer."
+        },
+        {
+          "authors": "Pearce, D., Tompits, H., & Woltran, S.",
+          "year": 2001,
+          "title": "Encodings for equilibrium logic and logic programs with nested expressions",
+          "publication": "Proceedings of the 10th Portuguese Conference on Artificial Intelligence (EPIA 2001)",
+          "details": "Vol. 2258, pp. 306-320. Springer."
+        },
+        {
+          "authors": "Pearce, D., & Valverde, A.",
+          "year": 2004,
+          "title": "Synonymous theories in answer set programming and equilibrium logic",
+          "publication": "Proceedings 16th European Conference on Artificial Intelligence (ECAI 2004)",
+          "details": "pp. 388-392."
+        },
+        {
+          "authors": "Pearce, D., & Valverde, A.",
+          "year": 2004,
+          "title": "Uniform equivalence for equilibrium logic and logic programs",
+          "publication": "Proceedings of the 7th International Conference on Logic Programming and Nonmonotonic Reasoning (LPNMR 2004)",
+          "details": "Vol. 2923, pp. 194-206. Springer."
+        },
+        {
+          "authors": "Pearce, D., & Valverde, A.",
+          "year": 2005,
+          "title": "A first order nonmonotonic extension of constructive logic",
+          "publication": "Studia Logica",
+          "details": "80(2-3), 321-346."
+        },
+        {
+          "authors": "Pearce, D., & Valverde, A.",
+          "year": 2008,
+          "title": "Quantified equilibrium logic and foundations for answer set programs",
+          "publication": "Proceedings of the 24th International Conference on Logic Programming (ICLP 2008)",
+          "details": "Vol. 5366, pp. 546-560. Springer."
+        },
+        {
+          "authors": "Pearce, D., & Wagner, G.",
+          "year": 1991,
+          "title": "Logic programming with strong negation",
+          "publication": "Workshop on Extensions of Logic Programming, Proceedings",
+          "details": "Vol. 475, pp. 311-326. Springer."
+        },
+        {
+          "authors": "Perlis, D.",
+          "year": 1988,
+          "title": "Autocircumscription",
+          "publication": "Artificial Intelligence",
+          "details": "36, 223-236."
+        },
+        {
+          "authors": "Przymusinski, T. C.",
+          "year": 1991,
+          "title": "Stable semantics for disjunctive programs",
+          "publication": "New Generation Computing",
+          "details": "9(3-4), 401-424."
+        },
+        {
+          "authors": "Pührer, J., Tompits, H., & Woltran, S.",
+          "year": 2008,
+          "title": "Elimination of disjunction and negation in answer-set programs under hyperequivalence",
+          "publication": "Proceedings of the 24th International Conference on Logic Programming (ICLP 2008)",
+          "details": "Vol. 5366, pp. 561-575. Springer."
+        },
+        {
+          "authors": "Quine, W. V. O.",
+          "year": 1952,
+          "title": "The problem of simplifying truth functions",
+          "publication": "American Mathematical Monthly",
+          "details": "59, 521-531."
+        },
+        {
+          "authors": "Rintanen, J.",
+          "year": 1999,
+          "title": "Constructing conditional plans by a theorem prover",
+          "publication": "Journal of Artificial Intelligence Research",
+          "details": "10, 323-352."
+        },
+        {
+          "authors": "Russell, B.",
+          "year": 1906,
+          "title": "The theory of implication",
+          "publication": "American Journal of Mathematics",
+          "details": "28(2), 159-202."
+        },
+        {
+          "authors": "Sagiv, Y.",
+          "year": 1988,
+          "title": "Optimising datalog programs",
+          "publication": "Foundations of Deductive Databases and Logic Programming",
+          "details": "pp. 659-698. Morgan Kaufmann."
+        },
+        {
+          "authors": "Sarsakov, V., Schaub, T., Tompits, H., & Woltran, S.",
+          "year": 2004,
+          "title": "nlp: A compiler for nested logic programming",
+          "publication": "Proceedings of the 7th International Conference on Logic Programming and Nonmonotonic Reasoning (LPNMR 2004)",
+          "details": "Vol. 2923, pp. 361-364. Springer."
+        },
+        {
+          "authors": "Simons, P., Niemelä, I., & Soininen, T.",
+          "year": 2002,
+          "title": "Extending and implementing the stable model semantics",
+          "publication": "Artificial Intelligence",
+          "details": "138, 181-234."
+        },
+        {
+          "authors": "Srzednicki, J., & Stachniak, Z. (Eds.)",
+          "year": 1998,
+          "title": "Lesniewski's Systems Protothetic",
+          "publication": "Dordrecht"
+        },
+        {
+          "authors": "Stockmeyer, L. J.",
+          "year": 1976,
+          "title": "The polynomial-time hierarchy",
+          "publication": "Theoretical Computer Science",
+          "details": "3(1), 1-22."
+        },
+        {
+          "authors": "Tompits, H.",
+          "year": 2003,
+          "title": "Expressing default abduction problems as quantified Boolean formulas",
+          "publication": "AI Communications",
+          "details": "16(2), 89-105."
+        },
+        {
+          "authors": "Tompits, H., & Woltran, S.",
+          "year": 2005,
+          "title": "Towards implementations for advanced equivalence checking in answer-set programming",
+          "publication": "Proceedings of the 21st International Conference on Logic Programming (ICLP 2005)",
+          "details": "Vol. 3668, pp. 189-203. Springer."
+        },
+        {
+          "authors": "Truszczyński, M., & Woltran, S.",
+          "year": 2008,
+          "title": "Hyperequivalence of logic programs with respect to supported models",
+          "publication": "Proceedings of the 23rd National Conference on Artificial Intelligence (AAAI 2008)",
+          "details": "pp. 560-565. AAAI Press."
+        },
+        {
+          "authors": "Turner, H.",
+          "year": 2001,
+          "title": "Strong equivalence for logic programs and default theories (made easy)",
+          "publication": "Proceedings of the 6th International Conference on Logic Programming and Nonmonotonic Reasoning (LPNMR 2001)",
+          "details": "Vol. 2173, pp. 81-92. Springer."
+        },
+        {
+          "authors": "Turner, H.",
+          "year": 2003,
+          "title": "Strong equivalence made easy: Nested expressions and weight constraints",
+          "publication": "Theory and Practice of Logic Programming",
+          "details": "3(4-5), 609-622."
+        },
+        {
+          "authors": "Valverde, A.",
+          "year": 2004,
+          "title": "tabeql: A tableau based suite for equilibrium logic",
+          "publication": "Proceedings of the 9th European Conference on Logics in Artificial Intelligence (JELIA 2004)",
+          "details": "Vol. 3229, pp. 734-737. Springer."
+        },
+        {
+          "authors": "Vorob'ev, N.",
+          "year": 1952,
+          "title": "A constructive propositional calculus with strong negation (in Russian)",
+          "publication": "Doklady Akademii Nauk SSR",
+          "details": "85, 689-692."
+        },
+        {
+          "authors": "Whitehead, A. N., & Russell, B.",
+          "year": "1910–1913",
+          "title": "Principia Mathematica",
+          "publication": "Cambridge University Press",
+          "details": "Vol. 1-3."
+        },
+        {
+          "authors": "Woltran, S.",
+          "year": 2003,
+          "title": "Quantified Boolean Formulas - From Theory to Practice",
+          "publication": "Ph.D. thesis, Technische Universität Wien, Institut für Informationssysteme"
+        },
+        {
+          "authors": "Woltran, S.",
+          "year": 2004,
+          "title": "Characterizations for relativized notions of equivalence in answer set programming",
+          "publication": "Proceedings of the 9th European Conference on Logics in Artificial Intelligence (JELIA 2004)",
+          "details": "Vol. 3229, pp. 161-173. Springer."
+        },
+        {
+          "authors": "Woltran, S.",
+          "year": 2005,
+          "title": "Answer set programming: Model applications and proofs-of-concept",
+          "publication": "Tech. Rep. WP5, Working Group on Answer Set Programming (WASP, IST-FET-2001-37004)",
+          "details": "Available at http://www.kr.tuwien.ac.at/research/projects/WASP/"
+        },
+        {
+          "authors": "Woltran, S.",
+          "year": 2008,
+          "title": "A common view on strong, uniform, and other notions of equivalence in answer-set programming",
+          "publication": "Theory and Practice of Logic Programming",
+          "details": "8(2), 217-234."
+        },
+        {
+          "authors": "Wrathall, C.",
+          "year": 1976,
+          "title": "Complete sets and the polynomial-time hierarchy",
+          "publication": "Theoretical Computer Science",
+          "details": "3(1), 23-33."
+        },
+        {
+          "authors": "You, J.-H., Yuan, L.-Y., & Mingyi, Z.",
+          "year": 2003,
+          "title": "On the equivalence between answer sets and models of completion for nested logic programs",
+          "publication": "Proceedings of the 18th International Joint Conference on Artificial Intelligence (IJCAI 2003)",
+          "details": "pp. 859-865. Morgan Kaufmann."
+        },
+        {
+          "authors": "Yuan, L.-Y.",
+          "year": 1994,
+          "title": "Autoepistemic logic of first order and its expressive power",
+          "publication": "Journal of Automated Reasoning",
+          "details": "13(1), 69-82."
+        }
+      ]
+    }
+  }
